@@ -22,7 +22,7 @@ def setup_logging():
 
 def register_handlers(bot):
     bot.register_message_handler(any_user, commands=["start"], pass_bot=True)
-    bot.register_message_handler(start_game_with_bot, commands=["game"], pass_bot=True)
+    bot.register_message_handler(start_game_with_bot, commands=["game_bot"], pass_bot=True)
 
 
 def main():

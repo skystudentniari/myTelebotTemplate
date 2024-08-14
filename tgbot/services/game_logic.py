@@ -7,9 +7,11 @@ outcomes = {
         ('бумага', 'ножницы'): "Ты проиграл!"
     }
 
-    
+game_states = {}
 
+""" example: game_states = {'start': True, 'move1': True, 'move2': False, 'end': False}
 
+"""
 
 def determine_winner(player1_info, player2_info):
     player1_move = player1_info["move"]
@@ -28,4 +30,3 @@ def computer_move():
     
 def player_move(player_choice, user_id):
     ...
-

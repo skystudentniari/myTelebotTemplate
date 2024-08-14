@@ -1,6 +1,6 @@
 import random
 from telebot import TeleBot
-from telebot.types import Message
+from telebot.types import Message, InlineKeyboardMarkup
 
 
 from ..services.game_logic import determine_winner, computer_move, player_move
@@ -22,3 +22,10 @@ def process_bot_choice(message: Message, bot: TeleBot):
     player2_info = {"name": "bot", "move": bot_choice}
     result = determine_winner(player1_info, player2_info)
     bot.send_message(user_id, result)
+
+def get_inline_keyboard():
+    markup = InlineKeyboardMarkup()
+    markup.row_width = 3
+    for choice in ["камень", "ножницы", "бумага"]:
+        markup.add(InlineKeyboardButton(choice, callback_data=choice))
+    return markup
