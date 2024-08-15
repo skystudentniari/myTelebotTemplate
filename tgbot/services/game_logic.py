@@ -23,8 +23,8 @@ def determine_winner(player1_info, player2_info):
     return result
 
 def create_game(message):
-    player_id = messsage.from_user.id
-    chat_id = message_from_user.chat.id
+    player_id = message.from_user.id
+    chat_id = message.from_user.id
     game_id = uuid.uuid1()
     game = {"start": True,
             "move1": False,

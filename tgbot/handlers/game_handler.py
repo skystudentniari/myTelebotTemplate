@@ -18,10 +18,11 @@ def start_game_with_bot(message: Message, bot: TeleBot):
     bot.register_next_step_handler(message, process_bot_choice, bot)
     
 def start_game_with_player(message: Message, bot: TeleBot):
+    user_id = message.from_user.id
     game = create_game(message)
     game_id = game.get("game_id")
-    games.update(game_id=game)
-    bot.send_message(user_id, f"Привет! Создалась игра под id {game.id}."
+    games[game_id] = game
+    bot.send_message(user_id, f"Привет! Создалась игра под id {game_id}."
                     "Вы игрок 1")
     logging.info(f"Была создана игра - {game}")
 
