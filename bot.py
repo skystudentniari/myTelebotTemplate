@@ -2,7 +2,8 @@ import logging
 
 # handlers
 from tgbot.handlers.user import any_user
-from tgbot.handlers.game_handler import start_game_with_bot, process_bot_choice
+from tgbot.handlers.game_handler import (start_game_with_bot, process_bot_choice, 
+                                         start_game_with_player)
 
 # telebot
 from telebot import TeleBot
@@ -23,6 +24,8 @@ def setup_logging():
 def register_handlers(bot):
     bot.register_message_handler(any_user, commands=["start"], pass_bot=True)
     bot.register_message_handler(start_game_with_bot, commands=["game_bot"], pass_bot=True)
+    bot.register_message_handler(start_game_with_player, commands=["game"], pass_bot=True)
+    
 
 
 def main():
