@@ -1,6 +1,6 @@
 import random
 from telebot import TeleBot
-from telebot.types import Message, InlineKeyboardMarkup
+from telebot.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 import logging
 
 
@@ -17,6 +17,7 @@ def start_game_with_bot(message: Message, bot: TeleBot):
     bot.send_message(user_id, f"Привет, выберите ход: (камень/ножницы/бумага)")  # move
     bot.register_next_step_handler(message, process_bot_choice, bot)
     
+    
 def start_game_with_player(message: Message, bot: TeleBot):
     user_id = message.from_user.id
     game = create_game(message)
@@ -25,6 +26,8 @@ def start_game_with_player(message: Message, bot: TeleBot):
     bot.send_message(user_id, f"Привет! Создалась игра под id {game_id}."
                     "Вы игрок 1")
     logging.info(f"Была создана игра - {game}")
+    bot.send_message(message.chat.id, f"Выберите ходы: камень/ножницы/бумага", reply_markup=get_inline_keyboard())
+    
 
 def process_bot_choice(message: Message, bot: TeleBot):
     user_id = message.from_user.id
@@ -41,3 +44,5 @@ def get_inline_keyboard():
     for choice in MAY_CHOICE:
         markup.add(InlineKeyboardButton(choice, callback_data=choice))
     return markup
+
+def handler_player_move():
