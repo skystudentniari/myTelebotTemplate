@@ -15,12 +15,15 @@ def determine_winner(player1_info, player2_info):
     player2_move = player2_info["move"]   
     
     if player1_move == player2_move:
-        result = "Ничья!"
+        result = {"game_result": "Ничья!", "is_correct": True}
     else:
-        result = outcomes.get((player1_move, player2_move),
-                              "Неправильный ввод! Пожалуйста, напиши камень, ножницы или бумага.")
-
+        message = outcomes.get((player1_move, player2_move))
+        
+        if message is None:
+            return {"game_result": "Неправильный ввод! Пожалуйста, напиши камень, ножницы или бумага.", "is_correct": False}
+        
     return result
+
 
 def create_game(message):
     player_id = message.from_user.id

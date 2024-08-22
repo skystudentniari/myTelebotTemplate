@@ -12,6 +12,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 games = {}
 
+
 def start_game_with_bot(message: Message, bot: TeleBot):
     user_id = message.from_user.id
     bot.send_message(user_id, f"Привет, выберите ход: (камень/ножницы/бумага)")  # move
@@ -36,7 +37,11 @@ def process_bot_choice(message: Message, bot: TeleBot):
     player1_info = {"name": message.from_user.first_name, "move": player_choice}
     player2_info = {"name": "bot", "move": bot_choice}
     result = determine_winner(player1_info, player2_info)
-    bot.send_message(user_id, result)
+    print(result)
+    if result["is_correct"]:
+        bot.send_message(user_id, result["game_result"])
+    else:
+        bot.register_next_step_handler(message, start_game_with_bot, bot)
 
 def get_inline_keyboard():
     markup = InlineKeyboardMarkup()
@@ -45,4 +50,6 @@ def get_inline_keyboard():
         markup.add(InlineKeyboardButton(choice, callback_data=choice))
     return markup
 
+
 def handler_player_move():
+    ...
