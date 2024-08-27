@@ -18,6 +18,7 @@ def determine_winner(player1_info, player2_info):
         result = {"game_result": "Ничья!", "is_correct": True}
     else:
         message = outcomes.get((player1_move, player2_move))
+        result = {"game_result": message, "is_correct": True}
         
         if message is None:
             return {"game_result": "Неправильный ввод! Пожалуйста, напиши камень, ножницы или бумага.", "is_correct": False}

@@ -1,7 +1,8 @@
 import random
 from telebot import TeleBot
-from telebot.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from telebot.types import Message,CallbackQuery
 import logging
+from inline_keyboards import create_game_keyboard
 
 
 from ..services.game_logic import determine_winner, computer_move, player_move, create_game
@@ -41,15 +42,25 @@ def process_bot_choice(message: Message, bot: TeleBot):
     if result["is_correct"]:
         bot.send_message(user_id, result["game_result"])
     else:
-        bot.register_next_step_handler(message, start_game_with_bot, bot)
-
-def get_inline_keyboard():
-    markup = InlineKeyboardMarkup()
-    markup.row_width = 3
-    for choice in MAY_CHOICE:
-        markup.add(InlineKeyboardButton(choice, callback_data=choice))
-    return markup
+        bot.send_message(user_id, result["game_result"])
+        bot.register_next_step_handler(message, process_bot_choice, bot)
 
 
-def handler_player_move():
-    ...
+
+def handler_player_move(message:Message,  bot: TeleBot):
+    question = "Сделайте ваш выбор:"
+    may_choice = MAY_CHOICE
+    bot_answer = "Ваш ход был принят"
+    
+    # Отправляем вопрос с вариантами ответов
+    answer = bot.send_message(message.chat.id, question, reply_markup=create_game_keyboard(may_choice, bot_answer))
+    # print(answer) 
+
+
+
+def handle_game_callback(call: CallbackQuery,  bot: TeleBot):
+    # Извлекаем правильность ответа из callback_data
+    print(call)
+
+    # Редактируем сообщение, чтобы убрать клавиатуру после ответа
+    bot.edit_message_reply_markup(call.message.chat.id, call.message.message_id, reply_markup=None)
