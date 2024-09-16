@@ -2,7 +2,7 @@ import logging
 
 # handlers
 from tgbot.handlers.user import any_user
-from tgbot.handlers.game_handler import (start_game_with_bot, process_bot_choice, 
+from tgbot.handlers.game_handler import (start_game_with_bot,
                                          start_game_with_player, handle_game_callback)
 
 # telebot
@@ -10,7 +10,6 @@ from telebot import TeleBot
 
 # config
 from tgbot.config import load_config
-
 
 def setup_logging():
     logging.basicConfig(
@@ -26,7 +25,7 @@ def register_handlers(bot):
     bot.register_message_handler(start_game_with_bot, commands=["game_bot"], pass_bot=True)
     bot.register_message_handler(start_game_with_player, commands=["game"], pass_bot=True)
     bot.register_callback_query_handler(handle_game_callback, func=lambda call: call.data.startswith('quiz_'),  pass_bot=True)
-    
+
 
 
 def main():

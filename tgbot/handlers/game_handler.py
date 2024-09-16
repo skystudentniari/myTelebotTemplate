@@ -2,10 +2,11 @@ import random
 from telebot import TeleBot
 from telebot.types import Message,CallbackQuery
 import logging
-from inline_keyboards import create_game_keyboard
+from tgbot.handlers.inline_keyboards import create_game_keyboard
 
 
-from ..services.game_logic import determine_winner, computer_move, player_move, create_game
+from tgbot.services.game_logic import determine_winner, create_game
+
 
 MAY_CHOICE = ["камень", "ножницы", "бумага"]
 
@@ -16,7 +17,7 @@ games = {}
 
 def start_game_with_bot(message: Message, bot: TeleBot):
     user_id = message.from_user.id
-    bot.send_message(user_id, f"Привет, выберите ход: (камень/ножницы/бумага)")  # move
+    bot.send_message(user_id, "Привет, выберите ход: (камень/ножницы/бумага)")  # move
     bot.register_next_step_handler(message, process_bot_choice, bot)
     
     
@@ -28,7 +29,7 @@ def start_game_with_player(message: Message, bot: TeleBot):
     bot.send_message(user_id, f"Привет! Создалась игра под id {game_id}."
                     "Вы игрок 1")
     logging.info(f"Была создана игра - {game}")
-    bot.send_message(message.chat.id, f"Выберите ходы: камень/ножницы/бумага", reply_markup=get_inline_keyboard())
+    bot.send_message(message.chat.id, "Выберите ходы: камень/ножницы/бумага", reply_markup=get_inline_keyboard())  # noqa: F821
     
 
 def process_bot_choice(message: Message, bot: TeleBot):
